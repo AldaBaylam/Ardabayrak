@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            color: #333;
+        }
+
+        .header {
+            background-color: #fff;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #262626;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list li {
+            margin-left: 20px;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: #262626;
+            font-weight: bold;
+        }
+
+        .main-content {
+            margin: 20px 0;
+        }
+
+        .posts {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .post {
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            padding: 10px;
+        }
+
+        .post img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .post-details {
+            padding: 10px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #fff;
+            border-top: 1px solid #dbdbdb;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>alda</h1>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="#">Keşfet</a></li>
+                    <li><a href="#">Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="posts">
+            <article class="post">
+                <img src="path/to/image.jpg" alt="Gönderi Resmi">
+                <div class="post-details">
+                    <h2>@kullaniciadi</h2>
+                    <p>Gönderi açıklaması...</p>
+                </div>
+            </article>
+            <!-- Buraya daha fazla gönderi ekleyin -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 alda. Tüm hakları saklıdır.</p>
+    </footer>
+</body>
+          </html>
