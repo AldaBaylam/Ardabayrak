@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bana Anonim Mesaj Gönder</title>
+    <title>AldaBaylam</title>
     <style>
         body {
             margin: 0;
@@ -24,6 +24,9 @@
         h1 {
             margin-top: 50px;
             font-size: 36px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
@@ -194,7 +197,7 @@
     </style>
 </head>
 <body>
-    <h1>AldaBaylam</h1>
+    <h1>@AldaBaylam</h1>
     <p>Bana anonim olarak mesaj gönder</p>
     <p>Yönetici isterse cevap vererek siteye herkese mesajı açık gösterebilir.</p>
 
@@ -204,8 +207,9 @@
     </div>
 
     <div class="public-messages" id="publicMessages">
-        <h2>AldaBaylam'ın Herkese Paylaştıkları Mesajlar:</h2>
+        <h2>@AldaBaylam'ın Herkese Paylaştığı Mesajlar:</h2>
         <!-- Bu alanda mesajlar listelenecek -->
+        <div class="message">Örnek bir mesaj burada görünecek</div>
     </div>
 
     <div class="admin-login">
@@ -235,6 +239,7 @@
                 adminMessages.push(messageText);
                 messageInput.value = ""; // Mesaj gönderildikten sonra kutuyu temizle
                 alert("Mesajınız gönderildi!"); // Mesajın gönderildiğini kullanıcıya bildir
+                updatePublicMessages(); // Mesaj gönderildikten sonra örnek mesajı güncelle
             }
         }
 
@@ -271,9 +276,10 @@
         function publishMessage(index) {
             const adminMessage = adminMessages[index];
             const response = document.querySelectorAll('.admin-message textarea')[index].value.trim();
-
+            const publicMessagesContainer = document.getElementById('publicMessages');
+            const adminMessagesContainer = document.getElementById('adminMessages');
+            
             if (response !== "") {
-                const publicMessagesContainer = document.getElementById('publicMessages');
                 const messageElement = document.createElement('div');
                 messageElement.className = 'message';
                 messageElement.innerHTML = `
@@ -281,10 +287,13 @@
                     <span>@AldaBaylam:</span> ${response}
                 `;
                 publicMessagesContainer.appendChild(messageElement);
-                removeExampleMessage();
+                removeExampleMessage(); // Örnek mesajı kaldır
                 alert("Mesaj başarıyla yayınlandı!");
+                adminMessages.splice(index, 1); // Yayınlandıktan sonra mesajı sil
+                updateAdminMessages(); // Yönetici panelini güncelle
             }
         }
+
         function removeExampleMessage() {
             const exampleMessage = document.querySelector('.public-messages .message');
             if (exampleMessage) {
@@ -292,24 +301,28 @@
             }
         }
 
+        function updateAdminMessages() {
+            const adminMessagesContainer = document.getElementById('adminMessages');
+            adminMessagesContainer.innerHTML = "";
+            adminMessages.forEach((msg, index) => {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'admin-message';
+                messageElement.innerHTML = `
+                    <p>Anonim Mesaj ${index + 1}: ${msg}</p>
+                    <textarea placeholder="Yanıtınızı yazın..."></textarea>
+                    <button onclick="publishMessage(${index})">Yayınla</button>
+                    <div class="delete-btn" onclick="deleteMessage(${index})">×</div>
+                `;
+                adminMessagesContainer.appendChild(messageElement);
+            });
+        }
+
         function deleteMessage(index) {
             // Mesajı adminMessages dizisinden sil
             adminMessages.splice(index, 1);
 
             // Yönetici panelindeki mesajları güncelle
-            const adminMessagesContainer = document.getElementById('adminMessages');
-            adminMessagesContainer.innerHTML = "";
-            adminMessages.forEach((msg, idx) => {
-                const messageElement = document.createElement('div');
-                messageElement.className = 'admin-message';
-                messageElement.innerHTML = `
-                    <p>Anonim Mesaj ${idx + 1}: ${msg}</p>
-                    <textarea placeholder="Yanıtınızı yazın..."></textarea>
-                    <button onclick="publishMessage(${idx})">Yayınla</button>
-                    <div class="delete-btn" onclick="deleteMessage(${idx})">×</div>
-                `;
-                adminMessagesContainer.appendChild(messageElement);
-            });
+            updateAdminMessages();
         }
     </script>
 </body>
