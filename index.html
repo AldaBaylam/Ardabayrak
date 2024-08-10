@@ -27,6 +27,14 @@
             background: linear-gradient(to right, #ff7e5f, #feb47b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: colorChange 2s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { color: red; }
+            33% { color: green; }
+            66% { color: blue; }
+            100% { color: red; }
         }
 
         p {
@@ -236,7 +244,10 @@
             const messageText = messageInput.value.trim();
 
             if (messageText !== "") {
-                adminMessages.push(messageText);
+                const now = new Date();
+                const timestamp = now.toLocaleString(); // Mesajın gönderildiği zamanı al
+                
+                adminMessages.push({ text: messageText, time: timestamp });
                 messageInput.value = ""; // Mesaj gönderildikten sonra kutuyu temizle
                 alert("Mesajınız gönderildi!"); // Mesajın gönderildiğini kullanıcıya bildir
                 updatePublicMessages(); // Mesaj gönderildikten sonra örnek mesajı güncelle
@@ -261,20 +272,20 @@
                     const messageElement = document.createElement('div');
                     messageElement.className = 'admin-message';
                     messageElement.innerHTML = `
-                        <p>Anonim Mesaj ${index + 1}: ${msg}</p>
+                        <p>Anonim Mesaj ${index + 1}: ${msg.text} <br /><small>Gönderilme Saati: ${msg.time}</small></p>
                         <textarea placeholder="Yanıtınızı yazın..."></textarea>
                         <button onclick="publishMessage(${index})">Yayınla</button>
                         <div class="delete-btn" onclick="deleteMessage(${index})">×</div>
                     `;
                     adminMessagesContainer.appendChild(messageElement);
                 });
+
             } else {
-                errorMessage.textContent = "Kullanıcı adı veya şifre yanlış!";
+                errorMessage.textContent = "Yanlış kullanıcı adı veya şifre!";
             }
         }
 
         function publishMessage(index) {
-            const adminMessage = adminMessages[index];
             const response = document.querySelectorAll('.admin-message textarea')[index].value.trim();
             const publicMessagesContainer = document.getElementById('publicMessages');
             const adminMessagesContainer = document.getElementById('adminMessages');
@@ -283,7 +294,7 @@
                 const messageElement = document.createElement('div');
                 messageElement.className = 'message';
                 messageElement.innerHTML = `
-                    <span>Anonim:</span> ${adminMessage} <br />
+                    <span>Anonim:</span> ${adminMessages[index].text} <br />
                     <span>@AldaBaylam:</span> ${response}
                 `;
                 publicMessagesContainer.appendChild(messageElement);
@@ -308,7 +319,7 @@
                 const messageElement = document.createElement('div');
                 messageElement.className = 'admin-message';
                 messageElement.innerHTML = `
-                    <p>Anonim Mesaj ${index + 1}: ${msg}</p>
+                    <p>Anonim Mesaj ${index + 1}: ${msg.text} <br /><small>Gönderilme Saati: ${msg.time}</small></p>
                     <textarea placeholder="Yanıtınızı yazın..."></textarea>
                     <button onclick="publishMessage(${index})">Yayınla</button>
                     <div class="delete-btn" onclick="deleteMessage(${index})">×</div>
@@ -318,11 +329,8 @@
         }
 
         function deleteMessage(index) {
-            // Mesajı adminMessages dizisinden sil
-            adminMessages.splice(index, 1);
-
-            // Yönetici panelindeki mesajları güncelle
-            updateAdminMessages();
+            adminMessages.splice(index, 1); // Mesajı adminMessages dizisinden sil
+            updateAdminMessages(); // Yönetici panelindeki mesajları güncelle
         }
     </script>
 </body>
